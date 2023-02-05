@@ -6,8 +6,7 @@ def group3[A](list: List[A]): List[List[A]] =
   def go(n: Int, subsets: List[List[A]], remains: List[A]): List[List[A]] =
     if n == remains.length then (remains +: subsets).reverse
     else
-      val combinations = remains.combinations(n).toList
-      combinations.flatMap { ss =>
+      remains.combinations(n).toList.flatMap { ss =>
         val newSubsets = ss +: subsets 
         val newRemains = remains.filter(a => !ss.contains(a))
         go(n + 1, newSubsets, newRemains)
