@@ -1,12 +1,9 @@
 // P26 (**) Generate the combinations of K distinct objects chosen from the N elements of a list.
-def combinations[A](k: Int, ls: List[A]): List[List[A]] = 
-  def go[A](k: Int, ls: List[A]): List[List[A]] = (k, ls) match {
+def combinations[A](k: Int, ls: List[A]): List[List[A]] = (k, ls) match {
     case (_, Nil) => Nil
     case (1, ls) => ls.map(List(_))
-    case (k, h :: t) => go(k - 1, t).map(h +: _) ++: go(k, t)
+    case (k, h :: t) => combinations(k - 1, t).map(h +: _) ++: combinations(k, t)
   }
-  if (k < 1 || k > ls.length) then Nil
-  else go(k, ls)
 
 combinations(1, List('a', 'b', 'c'))
 
