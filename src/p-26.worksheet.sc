@@ -5,7 +5,7 @@ def combinations[A](k: Int, ls: List[A]): List[List[A]] =
     case (1, ls) => ls.map(List(_))
     case (k, h :: t) => go(k - 1, t).map(h +: _) ++: go(k, t)
   }
-  if (k < 1 || k > ls.length) then List(Nil)
+  if (k < 1 || k > ls.length) then Nil
   else go(k, ls)
 
 combinations(1, List('a', 'b', 'c'))
@@ -20,8 +20,8 @@ val c = combinations(3, List('a', 'b', 'c', 'd', 'e', 'f'))
 assert(c.length == 20)
 
 // special cases
-assert(combinations(2, List('a')) == List(Nil))
-assert(combinations(0, List('a', 'b', 'c', 'd', 'e', 'f')) == List(Nil))
-assert(combinations(-1, List('a')) == List(Nil))
-assert(combinations(0, List()) == List(Nil))
-assert(combinations(1, List()) == List(Nil))
+assert(combinations(2, List('a')) == Nil)
+assert(combinations(0, List('a', 'b', 'c', 'd', 'e', 'f')) == Nil)
+assert(combinations(-1, List('a')) == Nil)
+assert(combinations(0, List()) == Nil)
+assert(combinations(1, List()) == Nil)
