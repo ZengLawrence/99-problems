@@ -26,9 +26,10 @@ b) Generalize the above predicate in a way that we can specify a list of group s
 */
 def group[A](sizes: List[Int], list: List[A]): List[List[List[A]]] = sizes match {
   case Nil => List(Nil)
-  case n :: t => combinations(n, list) flatMap { s =>
-    group(t, (list -- s)) map {s +: _}
-  }
+  case n :: t => for {
+    sg <- combinations(n, list)
+    rest <- group(t, (list -- sg))
+  } yield { sg +: rest }
 }
 
 group(List(2, 2, 5), List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
