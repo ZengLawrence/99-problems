@@ -9,7 +9,7 @@
     * @return
     */
 def lsort[A](list: List[List[A]]): List[List[A]] =
-  list.map(sl => (sl.length, sl)).sortWith{ (a, b) => a._1.compareTo(b._1) < 0}.map(_._2)
+  list map {sl => (sl.length, sl)}  sortWith {(a, b) => a._1.compareTo(b._1) < 0} map {_._2}
 
 val ls = lsort(List(List("a", "b", "c"), List("d", "e"), List("f", "g", "h"), List("d", "e"), List("i", "j", "k", "l"), List("m", "n"), List("o")))
 assert(ls == List(List("o"), List("d", "e"), List("d", "e"), List("m", "n"), List("a", "b", "c"), List("f", "g", "h"), List("i", "j", "k", "l")))
@@ -25,7 +25,7 @@ assert(ls == List(List("o"), List("d", "e"), List("d", "e"), List("m", "n"), Lis
     * @return
     */
 def lsortFreq[A](list: List[List[A]]): List[List[A]] =
-  lsort(list.groupBy(_.length).values.toList).flatMap(a => a)
+  lsort(list.groupBy(_.length).values.toList) flatMap {a => a}
 
 val lfs = lsortFreq(List(List("a", "b", "c"), List("d", "e"), List("f", "g", "h"), List("d", "e"), List("i", "j", "k", "l"), List("m", "n"), List("o")))
 assert(lfs == List(List("o"), List("i", "j", "k", "l"), List("a", "b", "c"), List("f", "g", "h"), List("d", "e"), List("d", "e"), List("m", "n")))
