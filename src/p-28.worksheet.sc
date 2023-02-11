@@ -9,7 +9,7 @@
     * @return
     */
 def lsort[A](list: List[List[A]]): List[List[A]] =
-  list map {sl => (sl.length, sl)}  sortWith {(a, b) => a._1.compareTo(b._1) < 0} map {_._2}
+  list sortWith {(a, b) => a.length.compareTo(b.length) < 0}
 
 val ls = lsort(List(List("a", "b", "c"), List("d", "e"), List("f", "g", "h"), List("d", "e"), List("i", "j", "k", "l"), List("m", "n"), List("o")))
 assert(ls == List(List("o"), List("d", "e"), List("d", "e"), List("m", "n"), List("a", "b", "c"), List("f", "g", "h"), List("i", "j", "k", "l")))
