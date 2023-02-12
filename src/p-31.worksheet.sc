@@ -1,7 +1,6 @@
 // P31 (**) Determine whether a given integer number is prime.
 extension (n: Int)
   def isPrime: Boolean = n match {
-    case 2 => true
     case n if n > 1 => {
       val (_, potentialDivisors) = (2 to Math.sqrt(n).toInt by 2) span {n % _ > 0}
       potentialDivisors.length == 0
