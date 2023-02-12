@@ -3,7 +3,10 @@
 extension (n: Int)
   def isPrime: Boolean = n match {
     case 2 => true
-    case _ => (2 until n by 2).span(n % _ > 0)._2.length == 0
+    case _ => {
+      val (_, potentialDivisors) = (2 until n by 2) span {n % _ > 0}
+      potentialDivisors.length == 0
+    }
   }
 
 assert(2.isPrime == true)
