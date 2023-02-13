@@ -2,7 +2,7 @@
 extension (n: Int)
   def isPrime: Boolean = n match {
     case n if n > 1 => {
-      val (_, potentialDivisors) = (2 to Math.sqrt(n).toInt by 2) span {n % _ > 0}
+      val potentialDivisors = (2 to Math.sqrt(n).toInt by 2) dropWhile {n % _ > 0}
       potentialDivisors.length == 0
     }
     case _ => false
