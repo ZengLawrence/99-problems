@@ -20,7 +20,7 @@ extension (n: Int)
       case (p #:: _, n) if n % p == 0 => go(primeToTest, p +: factors, n / p)
       case (p #:: t, n) => go(t, factors, n)
     }
-    val primes = LazyList.from(2) filter {_.isPrime}
+    val primes = 2 #:: LazyList.from(3, 2) filter {_.isPrime}
     go(primes, List[Int](), n).reverse
 
 assert(315.primeFactors == List(3, 3, 5, 7))
