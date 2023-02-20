@@ -22,6 +22,8 @@ extension (n: Int)
     val primes = 2 #:: LazyList.from(3, 2) filter {_.isPrime}
     go(primes, List[Int](), n).reverse
 
+  // Alternative as suggested by the website is to count directly. However, that design packs too
+  // much in one function. This is a better approach.
   def primeFactorMultiplicity: List[(Int, Int)] =
     (for 
       (k, v) <- n.primeFactors groupBy {i => i}
