@@ -23,6 +23,8 @@ extension (n: Int)
     go(primes, List[Int](), n).reverse
 
   def primeFactorMultiplicity: List[(Int, Int)] =
-    (n.primeFactors groupBy {i => i} map {(k, v) => (k, v.length)}).toList
+    (for 
+      (k, v) <- n.primeFactors groupBy {i => i}
+    yield (k, v.length)).toList
 
 assert(315.primeFactorMultiplicity.sortBy(_._1) == List((3,2), (5,1), (7,1)))
