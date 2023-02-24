@@ -6,7 +6,7 @@
 def gcd(a: Int, b: Int): Int = 
   @annotation.tailrec
   def go(a: Int, b: Int): Int = (a, b) match {
-    case (a, 0) => a  // don't have to check a for 0 because third condition will flip it
+    case (a, 0) => a  // don't have to check a for 0 because second condition will flip it
     case (a, b) => go(b, a % b)
   }
   go(a, b)
