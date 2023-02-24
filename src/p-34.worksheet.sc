@@ -3,7 +3,7 @@
  * Euler’s so-called totient function ϕ(m) is defined as the number of positive integers r(1<=r<=m) that are coprime to m.
  */
 
- def gcd(a: Int, b: Int): Int = 
+def gcd(a: Int, b: Int): Int = 
   @annotation.tailrec
   def go(a: Int, b: Int): Int = (a, b) match {
     case (a, 0) => a  // don't have to check a for 0 because third condition will flip it
