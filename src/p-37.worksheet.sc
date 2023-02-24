@@ -29,9 +29,9 @@ extension (n: Int)
     yield (k, v.length)).toList
 
   def totient: Int = 
-    (for
-      (p, m) <- n.primeFactorMultiplicity 
-    yield (p - 1)*(Math.pow(p, m - 1)).toInt) reduce {_ * _}
+    n.primeFactorMultiplicity.foldLeft(1) { (t, pfm) => pfm match {
+      case (p, m) => t * (p - 1)*(Math.pow(p, m - 1)).toInt
+    }}
 
 end extension
 
