@@ -19,6 +19,6 @@ extension (n: Int)
   def isEven: Boolean = (n % 2) == 0
 
 def goldbachList(range: Range): Map[Int, (Int, Int)] =
-    range.filter{_.isEven}.groupMapReduce(identity)(_.goldbach)((_, pair) => pair)
+    range.filter{_.isEven}.groupMapReduce {identity} {_.goldbach} {(_, pair) => pair}
 
 goldbachList(9 to 20)
