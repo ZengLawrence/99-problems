@@ -11,7 +11,6 @@ extension (n: Int)
   }
 
   def goldbach: (Int, Int) = 
-    def notPrimePair(i: Int): Boolean = !i.isPrime || !(n -i).isPrime
-    ((2 to n / 2) dropWhile {notPrimePair} map {i => (i, n - i)}).head
+    ((2 to n / 2) find {i => i.isPrime && (n -i).isPrime} map {i => (i, n - i)}).head
 
 assert(28.goldbach == (5,23))
