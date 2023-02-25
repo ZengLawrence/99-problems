@@ -11,6 +11,9 @@ extension (n: Int)
   }
 
   def goldbach: (Int, Int) = 
-    ((2 to n / 2) find {i => i.isPrime && (n -i).isPrime} map {i => (i, n - i)}).head
+    (2 to n / 2) find {i => i.isPrime && (n -i).isPrime} match {
+      case Some(i) => (i, n - i)
+      case None => throw new IllegalArgumentException
+    }
 
 assert(28.goldbach == (5,23))
