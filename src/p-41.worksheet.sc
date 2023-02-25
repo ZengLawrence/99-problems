@@ -19,7 +19,7 @@ extension (n: Int)
   def isEven: Boolean = (n % 2) == 0
 
 def goldbachList(range: Range): Map[Int, (Int, Int)] =
-    range.dropWhile(_ <= 2).filter{_.isEven}.groupMapReduce {identity} {_.goldbach} {(_, pair) => pair}
+    range.filter{i => i > 2 && i.isEven}.groupMapReduce {identity} {_.goldbach} {(_, pair) => pair}
 
 assert(goldbachList(9 to 20) == Map(10 -> (3, 7),
                                     12 -> (5, 7),
