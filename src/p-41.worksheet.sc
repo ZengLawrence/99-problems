@@ -33,7 +33,7 @@ assert(goldbachList(1 to 4) == Map(4 -> (2, 2)))
 
 // limit list with a minimum prime
 def goldbachListLimited(range: Range, minPrime: Int): Map[Int, (Int, Int)] =
-  goldbachList {Range.inclusive(minPrime, range.`end`)} filter {(_, v) => (v._1 > minPrime && v._2 > minPrime)}
+  goldbachList(range) filter {(_, v) => (v._1 > minPrime && v._2 > minPrime)}
 
 assert(goldbachListLimited(1 to 2000, 50) == Map(992 -> (73, 919),
                                                 1382 -> (61, 1321),
