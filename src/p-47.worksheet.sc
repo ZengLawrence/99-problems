@@ -42,14 +42,6 @@ assert(table2((a, b) => a or b) == Map((true,true) -> true,
                                         (false,false) -> false)
 )
 
-// test example
-val t = ((a: Boolean, b: Boolean) => a and (a or b))
-assert(table2(t) == Map((true,true) -> true, 
-                        (true,false) -> true, 
-                        (false,true) -> false, 
-                        (false,false) -> false)
-)
-
 // nand
 assert(table2((a, b) => a nand b) == Map((true,true) -> false, 
                                         (true,false) -> true, 
@@ -83,4 +75,12 @@ assert(table2((a, b) => a equ b) == Map((true,true) -> true,
                                         (true,false) -> false, 
                                         (false,true) -> false, 
                                         (false,false) -> true)
+)
+
+// test example
+val t = (a: Boolean, b: Boolean) => a and (a or not(b))
+assert(table2(t) == Map((true,true) -> true, 
+                        (true,false) -> true, 
+                        (false,true) -> false, 
+                        (false,false) -> false)
 )
