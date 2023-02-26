@@ -25,6 +25,8 @@ extension (a: Boolean)
   def nand(b: Boolean): Boolean = not(a and b)
   def nor(b: Boolean): Boolean = not(a or b)
   def xor(b: Boolean): Boolean = (a and not(b)) or (not(a) and b)
+  def impl(b: Boolean): Boolean = not(a) or b
+  def equ(b: Boolean): Boolean = (a impl b) and (not(a) impl not(b))
 
 // and
 assert(table2((a, b) => a and b) == Map((true,true) -> true, 
@@ -67,4 +69,18 @@ assert(table2((a, b) => a xor b) == Map((true,true) -> false,
                                         (true,false) -> true, 
                                         (false,true) -> true, 
                                         (false,false) -> false)
+)
+
+// impl
+assert(table2((a, b) => a impl b) == Map((true,true) -> true, 
+                                          (true,false) -> false, 
+                                          (false,true) -> true, 
+                                          (false,false) -> true)
+)
+
+// equ
+assert(table2((a, b) => a equ b) == Map((true,true) -> true, 
+                                        (true,false) -> false, 
+                                        (false,true) -> false, 
+                                        (false,false) -> true)
 )
