@@ -1,7 +1,10 @@
 // P46 (**) Truth tables for logical expressions.
 
 def table2(f: (a: Boolean, b: Boolean) => Boolean): Map[(Boolean, Boolean), Boolean] =
-  {List(true, true, false, false) zip List(true, false, true, false)}.groupMapReduce{identity}{ab => f(ab._1, ab._2)}{(_, v) => v}
+  (for
+    a <- List(true, false) 
+    b <- List(true, false)
+  yield {(a, b) -> f(a, b)}).groupMapReduce{_._1}{_._2}{(_, v) => v}
 
 def not(a: Boolean): Boolean = a match {
   case true => false
