@@ -7,24 +7,24 @@ def and(a: Boolean, b: Boolean): Boolean = a && b
 
 assert(table2(and) == Map((true,true) -> true, 
                           (true,false) -> false, 
-                          (false,false) -> false, 
-                          (false,true) -> false)
+                          (false,true) -> false, 
+                          (false,false) -> false)
 )
 
 def or(a: Boolean, b: Boolean): Boolean = a || b
 
 assert(table2(or) == Map((true,true) -> true, 
                           (true,false) -> true, 
-                          (false,false) -> false, 
-                          (false,true) -> true)
+                          (false,true) -> true, 
+                          (false,false) -> false)
 )
 
 // test example
 val t = ((a: Boolean, b: Boolean) => and(a, or(a, b)))
 assert(table2(t) == Map((true,true) -> true, 
                         (true,false) -> true, 
-                        (false,false) -> false, 
-                        (false,true) -> false)
+                        (false,true) -> false, 
+                        (false,false) -> false)
 )
 
 def nand(a: Boolean, b: Boolean): Boolean = !and(a: Boolean, b: Boolean)
