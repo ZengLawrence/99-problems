@@ -26,7 +26,7 @@ extension (a: Boolean)
   def nor(b: Boolean): Boolean = not(a or b)
   def xor(b: Boolean): Boolean = (a and not(b)) or (not(a) and b)
   def impl(b: Boolean): Boolean = not(a) or b
-  def equ(b: Boolean): Boolean = (a impl b) and (not(a) impl not(b))
+  def equ(b: Boolean): Boolean = (a and b) or (not(a) and not(b))
 
 // and
 assert(table2((a, b) => a and b) == Map((true,true) -> true, 
