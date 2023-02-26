@@ -26,3 +26,21 @@ assert(table2(t) == Map((true,true) -> true,
                         (false,false) -> false, 
                         (false,true) -> false)
 )
+
+def nand(a: Boolean, b: Boolean): Boolean = !and(a: Boolean, b: Boolean)
+
+assert(table2(nand) == Map((true,true) -> false, 
+                          (true,false) -> true, 
+                          (false,true) -> true, 
+                          (false,false) -> true)
+)
+
+def nor(a: Boolean, b: Boolean): Boolean = !or(a: Boolean, b: Boolean)
+
+table2(nor)
+
+assert(table2(nor) == Map((true,true) -> false, 
+                          (true,false) -> false, 
+                          (false,true) -> false, 
+                          (false,false) -> true)
+)
