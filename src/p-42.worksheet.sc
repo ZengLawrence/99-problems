@@ -42,3 +42,27 @@ assert(table2(nor) == Map((true,true) -> false,
                           (false,true) -> false, 
                           (false,false) -> true)
 )
+
+def xor(a: Boolean, b: Boolean): Boolean = or(and(a, !b), and(!a, b))
+
+assert(table2(xor) == Map((true,true) -> false, 
+                          (true,false) -> true, 
+                          (false,true) -> true, 
+                          (false,false) -> false)
+)
+
+def impl(a: Boolean, b: Boolean): Boolean = or(!a, b)
+
+assert(table2(impl) == Map((true,true) -> true, 
+                          (true,false) -> false, 
+                          (false,true) -> true, 
+                          (false,false) -> true)
+)
+
+def equ(a: Boolean, b: Boolean): Boolean = and(impl(a, b), impl(!a, !b))
+
+assert(table2(equ) == Map((true,true) -> true, 
+                          (true,false) -> false, 
+                          (false,true) -> false, 
+                          (false,false) -> true)
+)
