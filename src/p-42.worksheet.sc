@@ -37,8 +37,6 @@ assert(table2(nand) == Map((true,true) -> false,
 
 def nor(a: Boolean, b: Boolean): Boolean = !or(a: Boolean, b: Boolean)
 
-table2(nor)
-
 assert(table2(nor) == Map((true,true) -> false, 
                           (true,false) -> false, 
                           (false,true) -> false, 
