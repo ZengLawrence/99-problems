@@ -8,7 +8,10 @@ def not(a: Boolean): Boolean = a match {
   case false => true
 }
 
-def and(a: Boolean, b: Boolean): Boolean = a && b
+def and(a: Boolean, b: Boolean): Boolean = (a, b) match {
+  case (true, true) => true
+  case _ => false
+}
 
 assert(table2(and) == Map((true,true) -> true, 
                           (true,false) -> false, 
@@ -16,7 +19,10 @@ assert(table2(and) == Map((true,true) -> true,
                           (false,false) -> false)
 )
 
-def or(a: Boolean, b: Boolean): Boolean = a || b
+def or(a: Boolean, b: Boolean): Boolean = (a, b) match {
+  case (false, false) => false
+  case _ => true
+}
 
 assert(table2(or) == Map((true,true) -> true, 
                           (true,false) -> true, 
