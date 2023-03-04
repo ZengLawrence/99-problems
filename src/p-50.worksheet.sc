@@ -3,6 +3,8 @@
 /**
     * implementation based on book Introduction to Data Compression, 4th Edition, 
     * chapter 3 Huffman Code. Recursion method.
+    * 
+    * This is not efficient. Would better to use binary tree for prefix code.
     */
 def huffman(symFreq: List[(String, Int)]): List[(String, Int)] = 
   def lowFrequencyToHigh = (a: (String, Int), b: (String, Int)) => a._2.compareTo(b._2) < 0
