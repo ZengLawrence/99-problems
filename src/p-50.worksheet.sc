@@ -5,7 +5,8 @@
     * chapter 3 Huffman Code. Recursion method.
     */
 def huffman(symFreq: List[(String, Int)]): List[(String, Int)] = 
-  symFreq.sortWith((a, b) => a._2.compareTo(b._2) < 0) match {
+  def lowFrequencyToHigh = (a: (String, Int), b: (String, Int)) => a._2.compareTo(b._2) < 0
+  symFreq.sortWith(lowFrequencyToHigh) match {
     case Nil => Nil
     case h :: Nil => List((h._1, 0))
     case l1 :: l2 :: remains => {
