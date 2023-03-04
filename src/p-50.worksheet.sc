@@ -10,9 +10,10 @@ def huffman(symFreq: List[(String, Int)]): List[(String, Int)] =
     case h :: Nil => List((h._1, 0))
     case l1 :: l2 :: remains => {
       val newSymbolFreq = (l1._1 ++ l2._1, l1._2 + l2._2)
+      val newSymbol = newSymbolFreq._1
       val codes = huffman(newSymbolFreq +: remains)
-      val newSymbolCode = codes.find(_._1 == newSymbolFreq._1).get._2
-      (l1._1, newSymbolCode * 10 + 0) +: (l2._1, newSymbolCode * 10 + 1) +: codes.filterNot(_._1 == newSymbolFreq._1)
+      val newSymbolCode = codes.find(_._1 == newSymbol).get._2
+      (l1._1, newSymbolCode * 10 + 0) +: (l2._1, newSymbolCode * 10 + 1) +: codes.filterNot(_._1 == newSymbol)
     }
   }
 
