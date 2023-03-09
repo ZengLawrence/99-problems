@@ -25,13 +25,11 @@ object Tree {
   // better recursive version
   def cBalanced2[T](nodes: Int, value: T): List[Tree[T]] = nodes match {
     case n if n < 1 => List(End)
-    case n if n % 2 == 1 => {
-      cBalanced2((n - 1) / 2, value) flatMap {
-        l => cBalanced2((n - 1) / 2, value) flatMap {
-          r => List(Node(value, l, r))
-        }
-      }
-    }
+    case n if n % 2 == 1 => 
+      for 
+        l <- cBalanced2((n - 1) / 2, value)
+        r <- cBalanced2((n - 1) / 2, value)
+      yield Node(value, l, r)
     case n if n % 2 == 0 => {
       val lessSubTrees = cBalanced2((n - 1) / 2, value)
       val greaterSubTrees = cBalanced2(((n - 1) / 2) + 1, value)
