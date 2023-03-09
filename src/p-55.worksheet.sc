@@ -63,7 +63,7 @@ object Tree {
     if (extra > 0) then {
       val lastLevelNodeStartIndex = startNodeIndex(level)
       combinations(extra, Range(lastLevelNodeStartIndex, startNodeIndex(level + 1)).toList).map{
-        nodes => buildTree(0, value){i => i < lastLevelNodeStartIndex || nodes.contains(i)}
+        lastLevelNodes => buildTree(0, value){i => i < lastLevelNodeStartIndex || lastLevelNodes.contains(i)}
       }
     }
     else List(buildTree(0, value){i => i < startNodeIndex(level + 1)})
