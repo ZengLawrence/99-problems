@@ -55,12 +55,33 @@ Tree.cBalanced(Array(true, false, true), 'x')
 
 Tree.cBalanced(7, 'x')
 
-def nToNodeArray(n: Int): Array[Boolean] = 
-  val (level, extra) = Tree.level(n)
-  Array.fill(n - extra)(true)
+def combinations[A](k: Int, ls: List[A]): List[List[A]] = (k, ls) match {
+    case (_, Nil) => Nil
+    case (1, ls) => ls.map(List(_))
+    case (k, h :: t) => combinations(k - 1, t).map(h +: _) ++: combinations(k, t)
+  }
 
-// unit tests
-nToNodeArray(1).toList
+def nodeNumber(level: Int): Int = 
+  if level < 0 then 0
+  else Math.pow(2, level).toInt + nodeNumber(level - 1)
+
+// unit test
+assert(nodeNumber(0) == 1)
+assert(nodeNumber(1) == 3)
+assert(nodeNumber(2) == 7)
+assert(nodeNumber(3) == 15)
+
+def startNodeIndex(level: Int): Int = 
+  if level < 0 then 0
+  else nodeNumber(level - 1)
+
+// unit test
+assert(startNodeIndex(0) == 0)
+assert(startNodeIndex(1) == 1)
+assert(startNodeIndex(2) == 3)
+assert(startNodeIndex(3) == 7)
+
+combinations(2, Range(startNodeIndex(2) + 1, startNodeIndex(3)).toList)
 
 assert(Tree.level(1) == (0, 0))
 assert(Tree.level(2) == (1, 1))
