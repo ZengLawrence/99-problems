@@ -60,13 +60,13 @@ object Tree {
       if isNode(i) then Node(value, buildTree((i*2) + 1, value){isNode}, buildTree((i*2) + 2, value){isNode})
       else End
     val (level, extra) = Tree.level(n)
-    if (extra > 0) then {
+    if (extra > 0) then 
       val lastLevelNodeStartIndex = startNodeIndex(level)
       combinations(extra, Range(lastLevelNodeStartIndex, startNodeIndex(level + 1)).toList).map{
         lastLevelNodes => buildTree(0, value){i => i < lastLevelNodeStartIndex || lastLevelNodes.contains(i)}
       }
-    }
-    else List(buildTree(0, value){i => i < startNodeIndex(level + 1)})
+    else 
+      List(buildTree(0, value){i => i < startNodeIndex(level + 1)})
 }
 
 assert(Tree.cBalanced(1, 'x') == List(Node('x', End, End)))
