@@ -55,20 +55,40 @@ object Tree {
       else (level, n)
     go(0, n)
 
-  def cBalanced[T](n: Int, value: T): Tree[T] = n match {
-    case n if n > 1 => {
-      val nn = n - 1
-      Node(value, cBalanced(nn / 2, value), cBalanced(nn - (nn / 2), value))
+  def cBalanced[T](n: Int, value: T): List[Tree[T]] = 
+    def buildTree[T](i: Int, value: T)(isNode: (i: Int) => Boolean): Tree[T] =
+      if isNode(i) then Node(value, buildTree((i*2) + 1, value){isNode}, buildTree((i*2) + 2, value){isNode})
+      else End
+    val (level, extra) = Tree.level(n)
+    if (extra > 0) then {
+      val lastLevelNodeStartIndex = startNodeIndex(level)
+      combinations(extra, Range(lastLevelNodeStartIndex, startNodeIndex(level + 1)).toList).map{
+        nodes => buildTree(0, value){i => i < lastLevelNodeStartIndex || nodes.contains(i)}
+      }
     }
-    case 1 => Node(value)
-    case _ => End
-  }
-
+    else List(buildTree(0, value){i => i < startNodeIndex(level + 1)})
 }
 
-Tree.cBalanced(7, 'x')
+assert(Tree.cBalanced(1, 'x') == List(Node('x', End, End)))
+assert(Tree.cBalanced(2, 'x') == List(Node('x', Node('x', End, End), End), 
+                                      Node('x', End, Node('x', End, End))))
+assert(Tree.cBalanced(3, 'x') == List(Node('x', Node('x', End, End), Node('x', End, End))))
+assert(Tree.cBalanced(4, 'x') == List(Node('x', Node('x', Node('x', End, End), End), Node('x', End, End)), 
+                                      Node('x', Node('x', End, Node('x', End, End)), Node('x', End, End)),
+                                      Node('x', Node('x', End, End), Node('x', Node('x', End, End), End)),
+                                      Node('x', Node('x', End, End), Node('x', End, Node('x', End, End)))))
+assert(Tree.cBalanced(5, 'x') == List(Node('x', Node('x', Node('x', End, End), Node('x', End, End)), Node('x', End, End)),
+                                      Node('x', Node('x', Node('x', End, End), End), Node('x', Node('x', End, End), End)),
+                                      Node('x', Node('x', Node('x', End, End), End), Node('x', End, Node('x', End, End))),
+                                      Node('x', Node('x', End, Node('x', End, End)), Node('x', Node('x', End, End), End)),
+                                      Node('x', Node('x', End, Node('x', End, End)), Node('x', End, Node('x', End, End))),
+                                      Node('x', Node('x', End, End), Node('x', Node('x', End, End), Node('x', End, End)))))
+assert(Tree.cBalanced(6, 'x') == List(Node('x', Node('x', Node('x', End, End), Node('x', End, End)), Node('x', Node('x', End, End), End)),
+                                      Node('x', Node('x', Node('x', End, End), Node('x', End, End)), Node('x', End, Node('x', End, End))),
+                                      Node('x', Node('x', Node('x', End, End), End), Node('x', Node('x', End, End), Node('x', End, End))),
+                                      Node('x', Node('x', End, Node('x', End, End)), Node('x', Node('x', End, End), Node('x', End, End)))))
+assert(Tree.cBalanced(7, 'x') == List(Node('x', Node('x', Node('x', End, End), Node('x', End, End)), Node('x', Node('x', End, End), Node('x', End, End)))))
 
-combinations(2, Range(startNodeIndex(2) + 1, startNodeIndex(3)).toList)
 
 assert(Tree.level(1) == (0, 0))
 assert(Tree.level(2) == (1, 1))
