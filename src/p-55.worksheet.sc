@@ -37,21 +37,7 @@ object Tree {
     case _ => End
   }
 
-  def cBalanced[T](nodes: Array[Boolean], value: T): Tree[T] =
-    def go(i: Int, nodes: Array[Boolean], value: T): Tree[T] = 
-      if i < nodes.length then
-        if nodes(i) then Node(value, go((i * 2) + 1, nodes, value), go((i * 2) + 2, nodes, value))
-        else End
-      else
-        End
-
-    go(0, nodes, value)
 }
-
-Tree.cBalanced(Array(true), 'x')
-Tree.cBalanced(Array(true, true), 'x')
-Tree.cBalanced(Array(true, true, false), 'x')
-Tree.cBalanced(Array(true, false, true), 'x')
 
 Tree.cBalanced(7, 'x')
 
