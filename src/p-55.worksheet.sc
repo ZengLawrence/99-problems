@@ -30,15 +30,12 @@ object Tree {
         l <- cBalanced2((n - 1) / 2, value)
         r <- cBalanced2((n - 1) / 2, value)
       yield Node(value, l, r)
-    case n if n % 2 == 0 => {
-      val lessSubTrees = cBalanced2((n - 1) / 2, value)
-      val greaterSubTrees = cBalanced2(((n - 1) / 2) + 1, value)
-      greaterSubTrees flatMap {
-        g => lessSubTrees flatMap {
-          l => List(Node(value, g, l), Node(value, l, g))
-        }
-      }
-    }
+    case n if n % 2 == 0 => 
+      for 
+        g <- cBalanced2(((n - 1) / 2) + 1, value)
+        l <- cBalanced2((n - 1) / 2, value)
+        node <- List(Node(value, g, l), Node(value, l, g))
+      yield node
   }
 }
 
