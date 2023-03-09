@@ -16,31 +16,7 @@ object Node {
 
 end Tree
 
-object Tree {
-
-  // balanced tree level for given n. Zero based.
-  // return tuple of (level, extra nodes on the last level)
-  def level(n: Int): (Int, Int) =
-    def go(level: Int, n: Int): (Int, Int) = 
-      val node4Level = Math.pow(2, level).toInt
-      if n > node4Level then go(level + 1, n - node4Level)
-      else if n == node4Level then (level, 0)
-      else (level, n)
-    go(0, n)
-
-  def cBalanced[T](n: Int, value: T): Tree[T] = n match {
-    case n if n > 1 => {
-      val nn = n - 1
-      Node(value, cBalanced(nn / 2, value), cBalanced(nn - (nn / 2), value))
-    }
-    case 1 => Node(value)
-    case _ => End
-  }
-
-}
-
-Tree.cBalanced(7, 'x')
-
+// helper functions
 def combinations[A](k: Int, ls: List[A]): List[List[A]] = (k, ls) match {
     case (_, Nil) => Nil
     case (1, ls) => ls.map(List(_))
@@ -66,6 +42,31 @@ assert(startNodeIndex(0) == 0)
 assert(startNodeIndex(1) == 1)
 assert(startNodeIndex(2) == 3)
 assert(startNodeIndex(3) == 7)
+
+object Tree {
+
+  // balanced tree level for given n. Zero based.
+  // return tuple of (level, extra nodes on the last level)
+  def level(n: Int): (Int, Int) =
+    def go(level: Int, n: Int): (Int, Int) = 
+      val node4Level = Math.pow(2, level).toInt
+      if n > node4Level then go(level + 1, n - node4Level)
+      else if n == node4Level then (level, 0)
+      else (level, n)
+    go(0, n)
+
+  def cBalanced[T](n: Int, value: T): Tree[T] = n match {
+    case n if n > 1 => {
+      val nn = n - 1
+      Node(value, cBalanced(nn / 2, value), cBalanced(nn - (nn / 2), value))
+    }
+    case 1 => Node(value)
+    case _ => End
+  }
+
+}
+
+Tree.cBalanced(7, 'x')
 
 combinations(2, Range(startNodeIndex(2) + 1, startNodeIndex(3)).toList)
 
