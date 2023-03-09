@@ -32,17 +32,17 @@ object Tree {
       yield Node(value, l, r)
     case n if n % 2 == 0 => 
       for 
-        g <- cBalanced2(((n - 1) / 2) + 1, value)
         l <- cBalanced2((n - 1) / 2, value)
-        node <- List(Node(value, g, l), Node(value, l, g))
+        g <- cBalanced2(((n - 1) / 2) + 1, value)
+        node <- List(Node(value, l, g), Node(value, g, l))
       yield node
   }
 }
 
 // recursive version
 assert(Tree.cBalanced2(1, 'x') == List(Node('x', End, End)))
-assert(Tree.cBalanced2(2, 'x') == List(Node('x', Node('x', End, End), End), 
-                                      Node('x', End, Node('x', End, End))))
+assert(Tree.cBalanced2(2, 'x').toSet == List(Node('x', Node('x', End, End), End), 
+                                      Node('x', End, Node('x', End, End))).toSet)
 assert(Tree.cBalanced2(3, 'x') == List(Node('x', Node('x', End, End), Node('x', End, End))))
 assert(Tree.cBalanced2(4, 'x').toSet == List(Node('x', Node('x', Node('x', End, End), End), Node('x', End, End)), 
                                       Node('x', Node('x', End, Node('x', End, End)), Node('x', End, End)),
