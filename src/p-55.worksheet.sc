@@ -1,4 +1,8 @@
 // P55 (**) Construct completely balanced binary trees.
+//     In a completely balanced binary tree, the following property holds for
+//     every node: The number of nodes in its left subtree and the number of
+//     nodes in its right subtree are almost equal, which means their difference
+//     is not greater than one. 
 
 sealed abstract class Tree[+T]
 
@@ -68,6 +72,27 @@ object Tree {
       }
     else 
       List(buildTree(0, value){i => i < startNodeIndex(level + 1)})
+
+  // better recursive version
+  def cBalanced2[T](nodes: Int, value: T): List[Tree[T]] = nodes match {
+    case n if n < 1 => List(End)
+    case n if n % 2 == 1 => {
+      cBalanced2((n - 1) / 2, value) flatMap {
+        l => cBalanced2((n - 1) / 2, value) flatMap {
+          r => List(Node(value, l, r))
+        }
+      }
+    }
+    case n if n % 2 == 0 => {
+      val lessSubTrees = cBalanced2((n - 1) / 2, value)
+      val greaterSubTrees = cBalanced2(((n - 1) / 2) + 1, value)
+      greaterSubTrees flatMap {
+        g => lessSubTrees flatMap {
+          l => List(Node(value, g, l), Node(value, l, g))
+        }
+      }
+    }
+  }
 }
 
 assert(Tree.cBalanced(1, 'x') == List(Node('x', End, End)))
@@ -78,6 +103,7 @@ assert(Tree.cBalanced(4, 'x') == List(Node('x', Node('x', Node('x', End, End), E
                                       Node('x', Node('x', End, Node('x', End, End)), Node('x', End, End)),
                                       Node('x', Node('x', End, End), Node('x', Node('x', End, End), End)),
                                       Node('x', Node('x', End, End), Node('x', End, Node('x', End, End)))))
+// 5 nodes are incorrect. Some sub trees are more than 2 nodes larger.
 assert(Tree.cBalanced(5, 'x') == List(Node('x', Node('x', Node('x', End, End), Node('x', End, End)), Node('x', End, End)),
                                       Node('x', Node('x', Node('x', End, End), End), Node('x', Node('x', End, End), End)),
                                       Node('x', Node('x', Node('x', End, End), End), Node('x', End, Node('x', End, End))),
@@ -99,3 +125,22 @@ assert(Tree.level(5) == (2, 2))
 assert(Tree.level(6) == (2, 3))
 assert(Tree.level(7) == (2, 0))
 assert(Tree.level(8) == (3, 1))
+
+// recursive version
+assert(Tree.cBalanced2(1, 'x') == List(Node('x', End, End)))
+assert(Tree.cBalanced2(2, 'x') == List(Node('x', Node('x', End, End), End), 
+                                      Node('x', End, Node('x', End, End))))
+assert(Tree.cBalanced2(3, 'x') == List(Node('x', Node('x', End, End), Node('x', End, End))))
+assert(Tree.cBalanced2(4, 'x').toSet == List(Node('x', Node('x', Node('x', End, End), End), Node('x', End, End)), 
+                                      Node('x', Node('x', End, Node('x', End, End)), Node('x', End, End)),
+                                      Node('x', Node('x', End, End), Node('x', Node('x', End, End), End)),
+                                      Node('x', Node('x', End, End), Node('x', End, Node('x', End, End)))).toSet)
+assert(Tree.cBalanced2(5, 'x').toSet == List(Node('x', Node('x', Node('x', End, End), End), Node('x', Node('x', End, End), End)),
+                                      Node('x', Node('x', Node('x', End, End), End), Node('x', End, Node('x', End, End))),
+                                      Node('x', Node('x', End, Node('x', End, End)), Node('x', Node('x', End, End), End)),
+                                      Node('x', Node('x', End, Node('x', End, End)), Node('x', End, Node('x', End, End)))).toSet)
+assert(Tree.cBalanced2(6, 'x').toSet == List(Node('x', Node('x', Node('x', End, End), Node('x', End, End)), Node('x', Node('x', End, End), End)),
+                                      Node('x', Node('x', Node('x', End, End), Node('x', End, End)), Node('x', End, Node('x', End, End))),
+                                      Node('x', Node('x', Node('x', End, End), End), Node('x', Node('x', End, End), Node('x', End, End))),
+                                      Node('x', Node('x', End, Node('x', End, End)), Node('x', Node('x', End, End), Node('x', End, End)))).toSet)
+assert(Tree.cBalanced2(7, 'x') == List(Node('x', Node('x', Node('x', End, End), Node('x', End, End)), Node('x', Node('x', End, End), Node('x', End, End)))))
