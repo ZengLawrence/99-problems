@@ -62,7 +62,8 @@ object Tree {
     val (level, extra) = Tree.level(n)
     if (extra > 0) then 
       val lastLevelNodeStartIndex = startNodeIndex(level)
-      combinations(extra, Range(lastLevelNodeStartIndex, startNodeIndex(level + 1)).toList).map{
+      val lastLevelNodeIndices = Range(lastLevelNodeStartIndex, startNodeIndex(level + 1)).toList
+      combinations(extra, lastLevelNodeIndices) map {
         lastLevelNodes => buildTree(0, value){i => i < lastLevelNodeStartIndex || lastLevelNodes.contains(i)}
       }
     else 
