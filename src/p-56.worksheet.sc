@@ -1,7 +1,7 @@
 // P56 (**) Symmetric binary trees.
 
 sealed abstract class Tree[+T] {
-  def isMirrorOf[T](tree: Tree[T]): Boolean = false
+  def isMirrorOf[T](tree: Tree[T]): Boolean
 }
 
 
@@ -26,8 +26,6 @@ case object End extends Tree[Nothing] {
 object Node {
   def apply[T](value: T): Node[T] = Node(value, End, End)
 }
-
-end Tree
 
 assert(Node('a', Node('b'), Node('c')).isSymmetric == true)
 assert(Node('a', Node('b'), End).isSymmetric == false)
