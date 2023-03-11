@@ -9,11 +9,11 @@ sealed abstract class Tree[+T] {
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
   override def isMirrorOf[T](tree: Tree[T]): Boolean = tree match {
-    case Node(_, left, right) => this.left.isMirrorOf(right) && this.right.isMirrorOf(left)
+    case t: Node[T] => left.isMirrorOf(t.right) && right.isMirrorOf(t.left)
     case End => false
   }
     
-  def isSymmetric: Boolean = this.left.isMirrorOf(this.right)
+  def isSymmetric: Boolean = left.isMirrorOf(right)
 }
 
 case object End extends Tree[Nothing] {
