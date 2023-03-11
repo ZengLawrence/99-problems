@@ -2,6 +2,7 @@
 
 sealed abstract class Tree[+T] {
   def isMirrorOf[T](tree: Tree[T]): Boolean
+  def isSymmetric: Boolean
 }
 
 
@@ -21,6 +22,7 @@ case object End extends Tree[Nothing] {
     case End => true
     case _ => false
   }
+  override def isSymmetric: Boolean = true
 }
 
 object Node {
@@ -33,3 +35,4 @@ assert(Node('a', Node('b', Node('d'), End), Node('c', End, Node('e'))).isSymmetr
 assert(Node('a', Node('b', Node('d'), Node('f')), Node('c', Node('g'), Node('e'))).isSymmetric == true)
 assert(Node('a', Node('b', Node('d'), End), Node('c', Node('g'), Node('e'))).isSymmetric == false)
 assert(Node('a', Node('b', Node('d'), Node('f')), Node('c', Node('g'), End)).isSymmetric == false)
+assert(End.isSymmetric == true)
