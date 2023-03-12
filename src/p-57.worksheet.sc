@@ -8,8 +8,7 @@ sealed abstract class Tree[+T] {
 
 object Tree {
   def fromList[V](list: List[V])(implicit ev: V => Ordered[V]): Tree[V] = 
-    val start: Tree[V] = End
-    list.foldLeft(start){(t, v) => t.addValue(v)}
+    list.foldLeft(End: Tree[V]){(t, v) => t.addValue(v)}
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
