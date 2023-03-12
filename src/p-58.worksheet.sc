@@ -8,20 +8,21 @@ sealed abstract class Tree[+T] {
 object Tree {
 
   // better recursive version
-  def cBalanced2[T](nodes: Int, value: T): List[Tree[T]] = nodes match {
+  def cBalanced[T](nodes: Int, value: T): List[Tree[T]] = nodes match {
     case n if n < 1 => List(End)
     case n if n % 2 == 1 => 
       for 
-        l <- cBalanced2((n - 1) / 2, value)
-        r <- cBalanced2((n - 1) / 2, value)
+        l <- cBalanced((n - 1) / 2, value)
+        r <- cBalanced((n - 1) / 2, value)
       yield Node(value, l, r)
     case n if n % 2 == 0 => 
       for 
-        l <- cBalanced2((n - 1) / 2, value)
-        g <- cBalanced2(((n - 1) / 2) + 1, value)
+        l <- cBalanced((n - 1) / 2, value)
+        g <- cBalanced(((n - 1) / 2) + 1, value)
         node <- List(Node(value, l, g), Node(value, g, l))
       yield node
   }
+
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
