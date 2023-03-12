@@ -23,6 +23,9 @@ object Tree {
       yield node
   }
 
+  def symmetricBalancedTrees[T](nodes: Int, value: T): List[Tree[T]] =
+    cBalanced(nodes, value) filter {_.isSymmetric}
+
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
@@ -47,3 +50,7 @@ case object End extends Tree[Nothing] {
 object Node {
   def apply[T](value: T): Node[T] = Node(value, End, End)
 }
+
+Tree.symmetricBalancedTrees(5, "x")
+assert(Tree.symmetricBalancedTrees(5, "x") == List(Node("x", Node("x", End, Node("x", End, End)), Node("x", Node("x", End, End), End)), 
+                                                  Node("x", Node("x", Node("x", End, End), End), Node("x", End, Node("x", End, End)))))
