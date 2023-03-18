@@ -24,12 +24,12 @@ object Node {
 object Tree {
 
   def hbalTrees[V](height: Int, value: V): List[Tree[V]] = 
-    def sameHeightTrees(subtrees: List[Tree[V]]): List[Tree[V]] =
+    def sameHeightTrees(subtrees: List[Tree[V]]) =
       for 
         l <- subtrees
         r <- subtrees
       yield Node(value, l, r)
-    def unevenHeightTrees(shortSubTrees: List[Tree[V]], fullHeightSubTrees: List[Tree[V]]): List[Tree[V]] =
+    def unevenHeightTrees(shortSubTrees: List[Tree[V]], fullHeightSubTrees: List[Tree[V]]) =
       for 
         sst <- shortSubTrees
         fst <- fullHeightSubTrees
