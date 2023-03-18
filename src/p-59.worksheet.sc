@@ -29,7 +29,7 @@ object Tree {
     case h if h > 1 => 
       val fullHeightSubTrees = hbalTrees(h - 1, value)
       val shortSubTrees = hbalTrees(h - 2, value)
-      val balHeightTrees = 
+      val sameHeightTrees = 
         for 
           l <- fullHeightSubTrees
           r <- fullHeightSubTrees
@@ -39,7 +39,7 @@ object Tree {
         fst <- fullHeightSubTrees
         node <- List(Node(value, sst, fst), Node(value, fst, sst))
       yield node
-      balHeightTrees ++: unbalancedHeightTrees
+      sameHeightTrees ++: unbalancedHeightTrees
   }
 
 }
