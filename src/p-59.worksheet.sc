@@ -26,9 +26,9 @@ object Tree {
   def hbalTrees[V](height: Int, value: V): List[Tree[V]] = height match {
     case 0 => List(End)
     case 1 => List(Node(value))
-    case n if n > 1 => 
-      val fullHeightSubTrees = hbalTrees(n - 1, value)
-      val shortSubTrees = hbalTrees(n - 2, value)
+    case h if h > 1 => 
+      val fullHeightSubTrees = hbalTrees(h - 1, value)
+      val shortSubTrees = hbalTrees(h - 2, value)
       val balHeightTrees = 
         for 
           l <- fullHeightSubTrees
