@@ -27,17 +27,19 @@ object Tree {
     case 0 => List(End)
     case 1 => List(Node(value))
     case n if n > 1 => 
+      val fullHeightSubTrees = hbalTrees(n - 1, value)
+      val shortSubTrees = hbalTrees(n - 2, value)
       val balHeightTrees = 
         for 
-          l <- hbalTrees(n - 1, value)
-          r <- hbalTrees(n - 1, value)
+          l <- fullHeightSubTrees
+          r <- fullHeightSubTrees
         yield Node(value, l, r)
-      val unbalHeightTrees = for 
-        lst <- hbalTrees(n - 2, value)
-        gst <- hbalTrees(n - 1, value)
-        node <- List(Node(value, lst, gst), Node(value, gst, lst))
+      val unbalancedHeightTrees = for 
+        sst <- shortSubTrees
+        fst <- fullHeightSubTrees
+        node <- List(Node(value, sst, fst), Node(value, fst, sst))
       yield node
-      balHeightTrees ++: unbalHeightTrees
+      balHeightTrees ++: unbalancedHeightTrees
   }
 
 }
