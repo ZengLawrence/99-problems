@@ -23,24 +23,26 @@ object Node {
 // start implementation
 object Tree {
 
-  def hbalTrees[V](height: Int, value: V): List[Tree[V]] = height match {
-    case 0 => List(End)
-    case 1 => List(Node(value))
-    case h if h > 1 => 
-      val fullHeightSubTrees = hbalTrees(h - 1, value)
-      val shortSubTrees = hbalTrees(h - 2, value)
-      val sameHeightTrees = 
-        for 
-          l <- fullHeightSubTrees
-          r <- fullHeightSubTrees
-        yield Node(value, l, r)
-      val unevenHeightTrees = for 
+  def hbalTrees[V](height: Int, value: V): List[Tree[V]] = 
+    def sameHeightTrees(subtrees: List[Tree[V]]): List[Tree[V]] =
+      for 
+        l <- subtrees
+        r <- subtrees
+      yield Node(value, l, r)
+    def unevenHeightTrees(shortSubTrees: List[Tree[V]], fullHeightSubTrees: List[Tree[V]]): List[Tree[V]] =
+      for 
         sst <- shortSubTrees
         fst <- fullHeightSubTrees
         node <- List(Node(value, sst, fst), Node(value, fst, sst))
       yield node
-      sameHeightTrees ++: unevenHeightTrees
-  }
+    height match {
+      case 0 => List(End)
+      case 1 => List(Node(value))
+      case h if h > 1 => 
+        val fullHeightSubTrees = hbalTrees(h - 1, value)
+        val shortSubTrees = hbalTrees(h - 2, value)
+        sameHeightTrees(fullHeightSubTrees) ++: unevenHeightTrees(shortSubTrees, fullHeightSubTrees)
+    }
 
 }
 
