@@ -34,12 +34,12 @@ object Tree {
           l <- fullHeightSubTrees
           r <- fullHeightSubTrees
         yield Node(value, l, r)
-      val unbalancedHeightTrees = for 
+      val unevenHeightTrees = for 
         sst <- shortSubTrees
         fst <- fullHeightSubTrees
         node <- List(Node(value, sst, fst), Node(value, fst, sst))
       yield node
-      sameHeightTrees ++: unbalancedHeightTrees
+      sameHeightTrees ++: unevenHeightTrees
   }
 
 }
