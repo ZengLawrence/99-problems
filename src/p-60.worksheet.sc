@@ -74,4 +74,4 @@ object Tree {
 
 }
 
-Tree.hbalTreesWithNodes(4, "x")
+assert(Tree.hbalTreesWithNodes(4, "x").length == 4)
