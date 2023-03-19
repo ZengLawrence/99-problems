@@ -24,6 +24,7 @@ def minHbalNodes(height: Int): Int = height match {
 assert(minHbalNodes(3) == 4)
 
 def maxHbalHeight(nodes: Int): Int =
+  @annotation.tailrec
   def go(nodes: Int, height: Int): Int =
     val minNodes = minHbalNodes(height)
     if nodes < minNodes then height - 1
