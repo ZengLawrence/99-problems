@@ -62,7 +62,11 @@ object Tree {
     
   // implementation
   def hbalTreesWithNodes[V](nodes: Int, value: V): List[Tree[V]] =
-    ((1 to maxHbalHeight(nodes)) flatMap {h => hbalTrees(h, value)} filter {t => nodeCount(t) == nodes}).toList
+    {for 
+      h <- 1 to maxHbalHeight(nodes)
+      t <- hbalTrees(h, value)
+      if nodeCount(t) == nodes
+    yield t}.toList
 
 }
 
