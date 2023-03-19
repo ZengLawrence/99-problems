@@ -24,12 +24,7 @@ def minHbalNodes(height: Int): Int = height match {
 assert(minHbalNodes(3) == 4)
 
 def maxHbalHeight(nodes: Int): Int =
-  @annotation.tailrec
-  def go(nodes: Int, height: Int): Int =
-    val minNodes = minHbalNodes(height)
-    if nodes < minNodes then height - 1
-    else go(nodes, height + 1)
-  go(nodes, 1)
+  LazyList.from(1).takeWhile{minHbalNodes(_) <= nodes}.last
 
 assert(maxHbalHeight(4) == 3)
 
