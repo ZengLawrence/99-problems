@@ -33,6 +33,14 @@ def maxHbalHeight(nodes: Int): Int =
 
 assert(maxHbalHeight(4) == 3)
 
+// does not calculate exact min height
+// at least eliminate large number of them
+def minHbalHeight(nodes: Int): Int =
+  if nodes == 0 then 0
+  else minHbalHeight((nodes - 1) / 2) + 1
+
+minHbalHeight(4)
+
 object Tree {
 
   def hbalTrees[V](height: Int, value: V): List[Tree[V]] = 
@@ -64,7 +72,7 @@ object Tree {
   // implementation
   def hbalTreesWithNodes[V](nodes: Int, value: V): List[Tree[V]] =
     {for 
-      h <- 1 to maxHbalHeight(nodes) // should find a lower bound to make it slightly more efficient
+      h <- minHbalHeight(nodes) to maxHbalHeight(nodes)
       t <- hbalTrees(h, value)
       if nodeCount(t) == nodes
     yield t}.toList
