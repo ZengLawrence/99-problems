@@ -63,7 +63,7 @@ object Tree {
   // implementation
   def hbalTreesWithNodes[V](nodes: Int, value: V): List[Tree[V]] =
     {for 
-      h <- 1 to maxHbalHeight(nodes)
+      h <- 1 to maxHbalHeight(nodes) // should find a lower bound to make it slightly more efficient
       t <- hbalTrees(h, value)
       if nodeCount(t) == nodes
     yield t}.toList
