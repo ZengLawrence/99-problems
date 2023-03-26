@@ -6,10 +6,10 @@ sealed abstract class Tree[+T] {
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
 
-  override def leafCount: Int = 
-    val lc = left.leafCount + right.leafCount
-    if (lc == 0) then 1
-    else lc
+  override def leafCount: Int = (left, right) match {
+    case (End, End) => 1
+    case _ => left.leafCount + right.leafCount
+  }
 
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
