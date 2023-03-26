@@ -1,6 +1,7 @@
 // P61A (*) Collect the leaves of a binary tree in a list.
 
 sealed abstract class Tree[+T] {
+  def leafCount = leafList.length
   def leafList: List[T]
 }
 
@@ -25,3 +26,4 @@ object Node {
 }
 
 assert(Node('a', Node('b'), Node('c', Node('d'), Node('e'))).leafList == List('b', 'd', 'e'))
+assert(Node('a', Node('b'), Node('c', Node('d'), Node('e'))).leafCount == 3)
