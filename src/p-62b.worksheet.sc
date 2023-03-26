@@ -9,7 +9,7 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
   override def atLevel(level: Int): List[T] = level match {
     case _ if level < 1 => Nil
     case 1 => List(value)
-    case _ => left.atLevel(level - 1) ::: right.atLevel(level - 1)
+    case n => left.atLevel(n - 1) ::: right.atLevel(n - 1)
   }
 
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
