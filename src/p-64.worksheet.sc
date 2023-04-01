@@ -1,33 +1,23 @@
 // P64 (**) Layout a binary tree (1).
 
-sealed abstract class Tree[+T]
-
-trait Node[+T] {
-  val value: T
-  val left: Tree[T]
-  val right: Tree[T]
-  def layoutBinaryTree: Tree[T]
+sealed abstract class Tree[+T] {
+  def inOrder: List[Tree[T]]
 }
 
-case class RegularNode[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T], Node[T] {
-  
-  override def layoutBinaryTree: Tree[T] = ???
+case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
+
+  override def inOrder: List[Tree[T]] = left.inOrder ::: List(this) ::: right.inOrder
 
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
 case object End extends Tree[Nothing] {
+
+  override def inOrder: List[Tree[Nothing]] = Nil
+
   override def toString = "."
 }
 
 object Node {
-  def apply[T](value: T): RegularNode[T] = RegularNode(value, End, End)
+  def apply[T](value: T): Node[T] = Node(value, End, End)
 }
-
-case class PositionedNode[+T](override val value: T, override val left: Tree[T], override val right: Tree[T], x: Int, y: Int) extends Tree[T], Node[T] {
-
-  override def layoutBinaryTree: Tree[T] = this
-
-  override def toString = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
-}
-
