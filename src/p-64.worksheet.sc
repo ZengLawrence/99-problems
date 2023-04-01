@@ -44,6 +44,7 @@ object Tree {
     case Node(v, l, r) => 
       if (ev(value) < v) then Node(v, insert(l, value), r)
       else Node(v, l, insert(r, value))
+    case _ => throw new IllegalStateException("Unexpected type")
   }
 
   def fromList[V](list: List[V])(implicit ev: V => Ordered[V]): Node[V] = 
