@@ -39,7 +39,7 @@ case class PositionedNode[+T](val value: T, val left: Tree[T], val right: Tree[T
 }
 
 object Tree {
-  def insert[V](tree: Tree[V], value: V)(implicit ev: V => Ordered[V]): Tree[V] = tree match {
+  def insert[V](tree: Tree[V], value: V)(implicit ev: V => Ordered[V]): Node[V] = tree match {
     case End => Node(value)
     case Node(v, l, r) => 
       if (ev(value) < v) then Node(v, insert(l, value), r)
