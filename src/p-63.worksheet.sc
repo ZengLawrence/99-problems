@@ -16,11 +16,11 @@ object Node {
 
 object Tree {
   def completeBinaryTree[T](nodes: Int, value: T): Tree[T] =
-    def go(nodeNumber: Int, value: T): Tree[T] = nodeNumber match {
-      case n if n <= nodes => Node(value, go(2 * n, value), go(2 * n + 1, value))
+    def go(nodeNumber: Int): Tree[T] = nodeNumber match {
+      case n if n <= nodes => Node(value, go(2 * n), go(2 * n + 1))
       case _ => End
     }
-    go(1, value)
+    go(1)
 }
 
 assert(Tree.completeBinaryTree(6, "x") == Node("x", 
