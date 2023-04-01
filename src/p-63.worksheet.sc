@@ -16,10 +16,9 @@ object Node {
 
 object Tree {
   def completeBinaryTree[T](nodes: Int, value: T): Tree[T] =
-    def go(nodeNumber: Int): Tree[T] = nodeNumber match {
-      case n if n <= nodes => Node(value, go(2 * n), go(2 * n + 1))
-      case _ => End
-    }
+    def go(i: Int): Tree[T] = 
+      if i > nodes then End
+      else Node(value, go(2 * i), go(2 * i + 1))
     go(1)
 }
 
