@@ -9,7 +9,10 @@ trait Node[+T] {
   def layoutBinaryTree: Tree[T]
 }
 
-case class RegularNode[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
+case class RegularNode[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T], Node[T] {
+  
+  override def layoutBinaryTree: Tree[T] = ???
+
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
@@ -23,8 +26,8 @@ object Node {
 
 case class PositionedNode[+T](override val value: T, override val left: Tree[T], override val right: Tree[T], x: Int, y: Int) extends Tree[T], Node[T] {
 
-  override def layoutBinaryTree: Tree[T] = ???
-  
+  override def layoutBinaryTree: Tree[T] = this
+
   override def toString = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
