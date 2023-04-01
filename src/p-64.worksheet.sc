@@ -39,16 +39,16 @@ case class PositionedNode[+T](val value: T, val left: Tree[T], val right: Tree[T
 }
 
 object Tree {
-  def insert(tree: Tree[Char], value: Char): Tree[Char] = tree match {
+  def insert[V](tree: Tree[V], value: V)(implicit ev: V => Ordered[V]): Tree[V] = tree match {
     case End => Node(value)
     case Node(v, l, r) => 
-      if (value < v) then Node(v, insert(l, value), r)
+      if (ev(value) < v) then Node(v, insert(l, value), r)
       else Node(v, l, insert(r, value))
   }
 
-  def fromList(list: List[Char]): Node[Char] = 
-    list.foldLeft(End: Tree[Char]){(t, v) => insert(t, v)} match {
-      case n: Node[Char] => n
+  def fromList[V](list: List[V])(implicit ev: V => Ordered[V]): Node[V] = 
+    list.foldLeft(End: Tree[V]){(t, v) => insert(t, v)} match {
+      case n: Node[V] => n
       case _ => throw new IllegalStateException("Unexpected type")
     }
 }
