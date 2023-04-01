@@ -38,5 +38,20 @@ case class PositionedNode[+T](val value: T, val left: Tree[T], val right: Tree[T
   override def toString = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
+object Tree {
+  def insert(tree: Tree[Char], value: Char): Tree[Char] = tree match {
+    case End => Node(value)
+    case Node(v, l, r) => 
+      if (value < v) then Node(v, insert(l, value), r)
+      else Node(v, l, insert(r, value))
+  }
+
+  def fromList(list: List[Char]): Tree[Char] = 
+    list.foldLeft(End: Tree[Char]){(t, v) => insert(t, v)}
+}
+
 Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree
 //T[3,1](a T[1,2](b . T[2,3](c . .)) T[4,2](d . .))
+
+val t = Tree.fromList(List('n', 'k', 'm', 'c', 'a', 'h', 'g', 'e', 'u', 'p', 's', 'q'))
+//t.layoutBinaryTree
