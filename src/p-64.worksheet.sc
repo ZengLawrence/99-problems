@@ -46,12 +46,16 @@ object Tree {
       else Node(v, l, insert(r, value))
   }
 
-  def fromList(list: List[Char]): Tree[Char] = 
-    list.foldLeft(End: Tree[Char]){(t, v) => insert(t, v)}
+  def fromList(list: List[Char]): Node[Char] = 
+    list.foldLeft(End: Tree[Char]){(t, v) => insert(t, v)} match {
+      case n: Node[Char] => n
+      case _ => throw new IllegalStateException("Unexpected type")
+    }
 }
 
 Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree
 //T[3,1](a T[1,2](b . T[2,3](c . .)) T[4,2](d . .))
 
 val t = Tree.fromList(List('n', 'k', 'm', 'c', 'a', 'h', 'g', 'e', 'u', 'p', 's', 'q'))
-//t.layoutBinaryTree
+t.layoutBinaryTree
+//T[8,1](n T[6,2](k T[2,3](c T[1,4](a . .) T[5,4](h T[4,5](g T[3,6](e . .) .) .)) T[7,3](m . .)) T[12,2](u T[9,3](p . T[11,4](s T[10,5](q . .) .)) .))
