@@ -56,3 +56,4 @@ Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree2
 
 val t = Tree.fromList(List('n', 'k', 'm', 'c', 'a', 'e', 'd', 'g', 'u', 'p', 'q')).get
 t.layoutBinaryTree2
+//T[15,1](n T[7,2](k T[3,3](c T[1,4](a . .) T[5,4](e T[4,5](d . .) T[6,5](g . .))) T[11,3](m . .)) T[23,2](u T[23,3](p . T[21,4](q . .)) .))
