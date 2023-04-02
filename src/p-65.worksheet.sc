@@ -2,9 +2,16 @@
 
 sealed abstract class Tree[+T] {
   def maxDepth: Int
+  def layoutBinaryTree2: Tree[T] = layoutBinaryTree2Internal(1, Math.pow(2, maxDepth - 1).toInt, 1)._1
+  def layoutBinaryTree2Internal(x: Int, hDistance: Int, y: Int): (Tree[T], Int)
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
+
+  override def layoutBinaryTree2Internal(x: Int, hDistance: Int, y: Int): (Tree[T], Int) = 
+    val (l, myX) = left.layoutBinaryTree2Internal(x, hDistance / 2, y + 1)
+    val (r, _) = right.layoutBinaryTree2Internal(myX + hDistance / 2, hDistance / 2, y + 1)
+    (PositionedNode(value, l, r, myX, y), myX + hDistance)
 
   override def maxDepth: Int = Math.max(left.maxDepth, right.maxDepth) + 1
 
@@ -14,6 +21,8 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
 case object End extends Tree[Nothing] {
 
   override def maxDepth: Int = 0
+
+  override def layoutBinaryTree2Internal(x: Int, hDistance: Int, y: Int): (Tree[Nothing], Int) = (End, x)
 
   override def toString = "."
 }
@@ -42,4 +51,5 @@ object Tree {
     }
 }
 
-Node('a', Node('b', End, Node('c')), Node('d')).maxDepth
+Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree2
+//T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
