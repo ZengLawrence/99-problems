@@ -1,27 +1,23 @@
 // P64 (**) Layout a binary tree (1).
 
 sealed abstract class Tree[+T] {
-  def inOrder: List[Tree[T]]
+  def layoutBinaryTree: Tree[T] = layoutBinaryTreeInternal(1, 1)._1
+  def layoutBinaryTreeInternal(x: Int, y: Int): (Tree[T], Int)
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
 
-  override def inOrder: List[Tree[T]] = left.inOrder ::: List(this) ::: right.inOrder
-
-  def layoutBinaryTree: Tree[T] =
-    val inOrderMap = this.inOrder.zipWithIndex.groupMapReduce((t, _) => t){(_, i) => i + 1}{(_, i) => i}
-    def lbt(tree: Tree[T], y: Int): Tree[T] = tree match {
-      case End => End
-      case Node(v, l, r): Node[T] => PositionedNode(v, lbt(l, y + 1), lbt(r, y + 1), inOrderMap(tree), y)
-    }
-    lbt(this, 1)
+  override def layoutBinaryTreeInternal(x: Int, y: Int): (Tree[T], Int) = 
+    val (l, myX) = left.layoutBinaryTreeInternal(x, y + 1)
+    val (r, nextX) = right.layoutBinaryTreeInternal(myX + 1, y + 1)
+    (PositionedNode(value, l, r, myX, y), nextX)
 
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
 case object End extends Tree[Nothing] {
 
-  override def inOrder: List[Tree[Nothing]] = Nil
+  override def layoutBinaryTreeInternal(x: Int, y: Int): (Tree[Nothing], Int) = (End, x)
 
   override def toString = "."
 }
