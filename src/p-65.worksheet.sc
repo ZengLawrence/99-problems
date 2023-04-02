@@ -8,9 +8,9 @@ sealed abstract class Tree[+T] {
   def maxDepth: Int
   def leftMostNodeDepth: Int
   def layoutBinaryTree2: Tree[T] = 
-    val md = maxDepth
-    val x0 = (2 to leftMostNodeDepth).map(d => Math.pow(2, md - d).toInt).reduceLeft(_ + _) + 1
-    layoutBinaryTree2Internal(x0, 1, md - 2)
+    val d = maxDepth
+    val x0 = (2 to leftMostNodeDepth).map(n => Math.pow(2, d - n).toInt).reduceLeft(_ + _) + 1
+    layoutBinaryTree2Internal(x0, 1, d - 2)
 
   def layoutBinaryTree2Internal(x0: Int, depth: Int, exp: Int): Tree[T]
 }
