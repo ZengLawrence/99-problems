@@ -11,8 +11,7 @@ sealed abstract class Tree[+T] {
     val d = maxDepth
     val x0 = (2 to leftMostNodeDepth).map(n => Math.pow(2, d - n).toInt).reduceLeft(_ + _) + 1
     // starting exponential at d - 2 
-    // because spacing calculate parent node, thus - 1
-    // and exp is 0 based instead of 1 based like depth, thus - 1
+    // because spacing calculate parent node, thus for level = 2
     val exp = d - 2 
     layoutBinaryTree2Internal(x0, 1, exp)
 
