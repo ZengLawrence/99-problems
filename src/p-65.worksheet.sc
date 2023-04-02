@@ -1,12 +1,20 @@
 // P65 (**) Layout a binary tree (2).
 
-sealed abstract class Tree[+T]
+sealed abstract class Tree[+T] {
+  def maxDepth: Int
+}
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
+
+  override def maxDepth: Int = Math.max(left.maxDepth, right.maxDepth) + 1
+
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
 case object End extends Tree[Nothing] {
+
+  override def maxDepth: Int = 0
+
   override def toString = "."
 }
 
@@ -33,3 +41,5 @@ object Tree {
       case _ => None
     }
 }
+
+Node('a', Node('b', End, Node('c')), Node('d')).maxDepth
