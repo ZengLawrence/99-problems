@@ -53,3 +53,6 @@ object Tree {
 
 Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree2
 //T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
+
+val t = Tree.fromList(List('n', 'k', 'm', 'c', 'a', 'e', 'd', 'g', 'u', 'p', 'q')).get
+t.layoutBinaryTree2
