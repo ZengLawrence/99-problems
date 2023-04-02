@@ -13,7 +13,6 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
     def lbt(tree: Tree[T], y: Int): Tree[T] = tree match {
       case End => End
       case Node(v, l, r): Node[T] => PositionedNode(v, lbt(l, y + 1), lbt(r, y + 1), inOrderMap(tree), y)
-      case t => t
     }
     lbt(this, 1)
 
@@ -31,9 +30,8 @@ object Node {
   def apply[T](value: T): Node[T] = Node(value, End, End)
 }
 
-case class PositionedNode[+T](val value: T, val left: Tree[T], val right: Tree[T], x: Int, y: Int) extends Tree[T] {
 
-  override def inOrder: List[Tree[T]] = left.inOrder ::: List(this) ::: right.inOrder
+class PositionedNode[+T](override val value: T, override val left: Tree[T], override val right: Tree[T], val x: Int, val y: Int) extends Node(value, left, right) {
 
   override def toString = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
@@ -44,7 +42,6 @@ object Tree {
     case Node(v, l, r) => 
       if (ev(value) < v) then Node(v, insert(l, value), r)
       else Node(v, l, insert(r, value))
-    case _ => throw new IllegalStateException("Unexpected type")
   }
 
   def fromList[V](list: List[V])(implicit ev: V => Ordered[V]): Node[V] = 
