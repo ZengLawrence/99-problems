@@ -1,11 +1,37 @@
 // P66 (***) Layout a binary tree (3).
-sealed abstract class Tree[+T]
+sealed abstract class Tree[+T] {
+  def layoutBinaryTree3: Tree[T] =
+    layoutBinaryTree3Internal(1, 1)._1
+  def layoutBinaryTree3Internal(x: Int, depth: Int): (Tree[T], Map[Int, Int])
+  def successorDepth(depth: Int): Int
+}
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
+
+  override def successorDepth(depth: Int): Int = Math.max(depth, right.successorDepth(depth + 1))
+
+  override def layoutBinaryTree3Internal(x: Int, depth: Int): (Tree[T], Map[Int, Int]) = 
+    val (l, ldm) = left.layoutBinaryTree3Internal(x, depth + 1)
+    val myX = ldm.get(successorDepth(depth)) match {
+      case None => ldm.get(depth + 1) match {
+        case None => x
+        case Some(xAtDepth) => xAtDepth + 1
+      }
+      case Some(xAtDepth) => xAtDepth + 1
+    }
+    val (r, rdm) = right.layoutBinaryTree3Internal(myX + 1, depth + 1)
+    (PositionedNode(value, l, r, myX, depth), (ldm ++ rdm + (depth -> myX)))
+
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
 case object End extends Tree[Nothing] {
+
+  override def successorDepth(depth: Int): Int = depth - 1
+
+
+  override def layoutBinaryTree3Internal(x: Int, depth: Int): (Tree[Nothing], Map[Int, Int]) = (End, Map.empty)
+
   override def toString = "."
 }
 
@@ -32,3 +58,8 @@ object Tree {
       case _ => None
     }
 }
+
+val n = Node('a', Node('b', End, Node('c')), Node('d'))
+n.successorDepth(1)
+n.layoutBinaryTree3
+//T[2,1]('a T[1,2]('b . T[2,3]('c . .)) T[3,2]('d . .))
