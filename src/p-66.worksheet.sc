@@ -1,4 +1,12 @@
 // P66 (***) Layout a binary tree (3).
+
+/**
+    * each node returns map of depth to right most node x
+    * a parent node finds level of its successor
+    * finds max of x of left child or successor level, if found, max + 1
+    * if both not found, use x
+    * this is x for parent node
+    */
 sealed abstract class Tree[+T] {
   def layoutBinaryTree3: Tree[T] =
     layoutBinaryTree3Internal(1, 1)._1
@@ -12,12 +20,11 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
 
   override def layoutBinaryTree3Internal(x: Int, depth: Int): (Tree[T], Map[Int, Int]) = 
     val (l, ldm) = left.layoutBinaryTree3Internal(x, depth + 1)
-    val myX = ldm.get(successorDepth(depth)) match {
-      case None => ldm.get(depth + 1) match {
-        case None => x
-        case Some(xAtDepth) => xAtDepth + 1
-      }
-      case Some(xAtDepth) => xAtDepth + 1
+    val myX = (ldm.get(depth + 1), ldm.get(successorDepth(depth))) match {
+      case (None, None) => x
+      case (None, Some(successorX))=> successorX + 1
+      case (Some(childX), None) => childX + 1
+      case (Some(childX), Some(successorX)) => Math.max(childX, successorX) + 1
     }
     val (r, rdm) = right.layoutBinaryTree3Internal(myX + 1, depth + 1)
     (PositionedNode(value, l, r, myX, depth), (ldm ++ rdm + (depth -> myX)))
