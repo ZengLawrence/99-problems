@@ -12,21 +12,29 @@ sealed abstract class Tree[+T] {
     layoutBinaryTree3Internal(1, 1)._1
   def layoutBinaryTree3Internal(x: Int, depth: Int): (Tree[T], Map[Int, Int])
   def successorDepth(depth: Int): Int
+  def leftMostNodeDepth: Int
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
 
-  override def successorDepth(depth: Int): Int = Math.max(depth, right.successorDepth(depth + 1))
+  override def successorDepth(depth: Int): Int = right.leftMostNodeDepth + 1
+
+  override def leftMostNodeDepth: Int = left.leftMostNodeDepth + 1
 
   override def layoutBinaryTree3Internal(x: Int, depth: Int): (Tree[T], Map[Int, Int]) = 
-    val (l, ldm) = left.layoutBinaryTree3Internal(x, depth + 1)
+    val lx = if x > 1 then x - 1 else x
+    val (l, ldm) = left.layoutBinaryTree3Internal(lx, depth + 1)
     val myX = (ldm.get(depth + 1), ldm.get(successorDepth(depth))) match {
       case (None, None) => x
       case (None, Some(successorX))=> successorX + 1
       case (Some(childX), None) => childX + 1
       case (Some(childX), Some(successorX)) => Math.max(childX, successorX) + 1
     }
-    val (r, rdm) = right.layoutBinaryTree3Internal(myX + 1, depth + 1)
+    val rx = ldm.get(depth + 1) match {
+      case None => myX + 1
+      case Some(lcx) => myX + (myX - lcx)
+    }
+    val (r, rdm) = right.layoutBinaryTree3Internal(rx, depth + 1)
     (PositionedNode(value, l, r, myX, depth), (ldm ++ rdm + (depth -> myX)))
 
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
@@ -34,8 +42,9 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
 
 case object End extends Tree[Nothing] {
 
-  override def successorDepth(depth: Int): Int = depth - 1
+  override def successorDepth(depth: Int): Int = 0
 
+  override def leftMostNodeDepth: Int = 0
 
   override def layoutBinaryTree3Internal(x: Int, depth: Int): (Tree[Nothing], Map[Int, Int]) = (End, Map.empty)
 
@@ -67,6 +76,13 @@ object Tree {
 }
 
 val n = Node('a', Node('b', End, Node('c')), Node('d'))
-n.successorDepth(1)
+assert(n.right.leftMostNodeDepth == 1)
+assert(n.successorDepth(1) == 2)
 n.layoutBinaryTree3
 //T[2,1]('a T[1,2]('b . T[2,3]('c . .)) T[3,2]('d . .))
+
+val t = Tree.fromList(List('n', 'k', 'm', 'c', 'a', 'e', 'd', 'g', 'u', 'p', 'q')).get
+t.layoutBinaryTree3
+//T[4,1](n T[3,2](k T[2,3](c T[1,4](a . .) T[3,4](e T[2,5](d . .) T[4,5](g . .))) T[4,3](m . .)) T[7,2](u T[6,3](p . T[7,4](q . .)) .))
+
+assert(t.successorDepth(1) == 3)
