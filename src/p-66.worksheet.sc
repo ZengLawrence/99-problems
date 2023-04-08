@@ -1,5 +1,7 @@
 // P66 (***) Layout a binary tree (3).
 
+// Not a working solution
+
 /**
     * each node returns map of depth to right most node x
     * a parent node finds level of its successor
@@ -86,3 +88,7 @@ t.layoutBinaryTree3
 //T[4,1](n T[3,2](k T[2,3](c T[1,4](a . .) T[3,4](e T[2,5](d . .) T[4,5](g . .))) T[4,3](m . .)) T[7,2](u T[6,3](p . T[7,4](q . .)) .))
 
 assert(t.successorDepth(1) == 3)
+
+val c = Node('c', Node('a', End, Node('b')), Node('f', Node('e', Node('d'), End), End))
+c.layoutBinaryTree3
+//T[3,1](c T[1,2](a . T[2,3](b . .)) T[5,2](f T[4,3](e T[3,4](d . .) .) .))
